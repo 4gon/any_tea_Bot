@@ -17,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     # All steps run inside the backend-node sub-folder
-    defaults:
-      run:
-        working-directory: backend-node
 
     steps:
       - name: Checkout repository
@@ -33,8 +30,7 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          # Cache key scoped to the backend-node lock file only
-          cache-dependency-path: backend-node/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies (clean install)
         run: npm ci
