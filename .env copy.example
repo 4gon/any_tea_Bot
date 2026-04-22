@@ -1,0 +1,29 @@
+# ──────────────────────────────────────────────────────────
+# Telegram Bot Configuration
+# ──────────────────────────────────────────────────────────
+
+# Bot token from @BotFather on Telegram
+BOT_TOKEN=your_telegram_bot_token_here
+
+# Target chat or channel ID
+# For a public channel : @your_channel_name
+# For a private channel: -1001234567890  (numeric ID)
+# For a personal chat  : your numeric user ID
+CHAT_ID=your_chat_id_here
+
+# ──────────────────────────────────────────────────────────
+# Google Gemini AI
+# Get your key at: https://aistudio.google.com/apikey
+# ──────────────────────────────────────────────────────────
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# ──────────────────────────────────────────────────────────
+# Optional Overrides
+# ──────────────────────────────────────────────────────────
+
+# Comma-separated list of RSS feed URLs
+# Defaults to TechCrunch, Hacker News, The Verge, Wired
+# RSS_FEEDS=https://techcrunch.com/feed/,https://hnrss.org/frontpage
+
+# Max number of articles passed to Gemini for summarization (default: 10)
+# MAX_ARTICLES=10

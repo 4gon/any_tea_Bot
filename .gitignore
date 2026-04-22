@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# TypeScript compiled output
+dist/
+
+# Environment secrets — NEVER commit this
+.env
+
+# OS / editor artefacts
+.DS_Store
+Thumbs.db
+*.log

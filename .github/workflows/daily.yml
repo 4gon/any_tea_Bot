@@ -1,0 +1,63 @@
+name: Daily Telegram Digest
+
+on:
+  schedule:
+    # 8:00 AM IST = 02:30 UTC
+    - cron: "30 2 * * *"
+  # Manual trigger button in GitHub Actions UI (great for testing)
+  workflow_dispatch:
+
+# Allow the workflow to commit seen_urls.json back to the repo
+permissions:
+  contents: write
+
+jobs:
+  run-bot:
+    name: Fetch · Summarize · Send
+    runs-on: ubuntu-latest
+
+    # All steps run inside the backend-node sub-folder
+    defaults:
+      run:
+        working-directory: backend-node
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Use default GITHUB_TOKEN — write permission granted above
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 20 (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          # Cache key scoped to the backend-node lock file only
+          cache-dependency-path: backend-node/package-lock.json
+
+      - name: Install dependencies (clean install)
+        run: npm ci
+
+      - name: Compile TypeScript
+        run: npm run build
+
+      - name: Run digest bot
+        run: npm start
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      # Persist the deduplication state back to the repo so the next
+      # scheduled run does not re-send the same articles.
+      # [skip ci] prevents this commit from triggering a new workflow run.
+      - name: Commit updated deduplication state
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add seen_urls.json
+          git diff --staged --quiet \
+            && echo "No changes to seen_urls.json — skipping commit" \
+            || git commit -m "chore: update dedup state [skip ci]"
+          git push
