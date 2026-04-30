@@ -11,16 +11,16 @@
     "lint": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@google/genai": "^1.0.0",
     "dotenv": "^16.4.5",
-    "fast-xml-parser": "^4.4.1",
+    "fast-xml-parser": "^5.7.2",
     "jsonrepair": "^3.14.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0",
+    "@types/node": "^22.0.0",
     "tsx": "^4.15.0",
     "typescript": "^5.4.5"
   }
